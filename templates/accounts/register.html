@@ -1,0 +1,31 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Register | Daanan
+{% endblock %}
+
+{% block content %}
+
+<h1>Create Your Daanan Account</h1>
+
+<p>Join Daanan and help make places more accessible.</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Create Account
+    </button>
+
+</form>
+
+<p>
+    Already have an account?
+    <a href="#">Login here</a>
+</p>
+
+{% endblock %}
