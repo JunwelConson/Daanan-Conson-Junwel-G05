@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin Dashboard | Daanan
+{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to the Daanan Admin Dashboard!</h1>
+
+<p>You are successfully logged in as an administrator.</p>
+
+<p>Username: {{ request.user.username }}</p>
+
+{% endblock %}

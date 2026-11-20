@@ -11,21 +11,30 @@ Register | Daanan
 
 <p>Join Daanan and help make places more accessible.</p>
 
-<form method="POST">
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-    {% csrf_token %}
+    <form method="POST">
+        {% csrf_token %}
 
-    {{ form.as_p }}
+        {{ form.as_p }}
 
-    <button type="submit">
-        Create Account
-    </button>
-
-</form>
+        <button type="submit">
+            Create Account
+        </button>
+    </form>
 
 <p>
     Already have an account?
-    <a href="#">Login here</a>
+    <a href="{% url 'login' %}">Login here</a>
+</p>
+
+<p>
+    <a href="{% url 'home' %}">Back to Home</a>
 </p>
 
 {% endblock %}
+```

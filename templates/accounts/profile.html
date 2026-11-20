@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile | Daanan
+{% endblock %}
+
+{% block content %}
+
+<h1>My Profile</h1>
+
+<p>Manage your Daanan account information.</p>
+
+<h3>Account Role</h3>
+<p>{{ user_profile.get_role_display }}</p>
+
+<h3>Edit Profile Information</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Changes
+    </button>
+
+    <a href="{% url 'user_dashboard' %}">
+        Cancel
+    </a>
+</form>
+
+
+
+{% endblock %}
