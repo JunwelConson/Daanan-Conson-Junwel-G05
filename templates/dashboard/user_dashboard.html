@@ -1,49 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'base.html' %}
 
-    <title>{% block title %}Daanan{% endblock %}</title>
-</head>
-<body>
+{% block title %}Dashboard | Daanan{% endblock %}
 
-    <header>
-        <h2>Daanan</h2>
+{% block content %}
+<section class="dashboard-hero" aria-labelledby="dashboard-title">
+    <div>
+        <p class="eyebrow">Community accessibility guide</p>
+        <h1 id="dashboard-title">Welcome, {{ display_name }}</h1>
+        <p>Discover places shared by the community and help others know what to expect.</p>
+    </div>
+    <a class="button button-primary" href="{% url 'places:create' %}">Add a Place</a>
+</section>
 
-        <nav>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'about' %}">About</a>
+<section class="dashboard-section" aria-labelledby="community-title">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Shared by the community</p>
+            <h2 id="community-title">Recently shared places</h2>
+        </div>
+        <a href="{% url 'places:list' %}">Explore all places</a>
+    </div>
 
-            {% if user.is_authenticated %}
-
-                <a href="{% url 'user_dashboard' %}">Dashboard</a>
-                <a href="{% url 'profile' %}">My Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
-
-            {% else %}
-
-                <a href="{% url 'register' %}">Register</a>
-                <a href="{% url 'login' %}">Login</a>
-
-            {% endif %}
-        </nav>
-    </header>
-
-    <main>
-        {% if messages %}
-            {% for message in messages %}
-                <p>{{ message }}</p>
+    {% if community_places %}
+        <div class="place-grid">
+            {% for place in community_places %}
+                {% include 'dashboard/_place_card.html' with place=place %}
             {% endfor %}
-        {% endif %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>Be the first to share a place</h3>
+            <p>Help the community plan with useful accessibility information.</p>
+            <a class="button button-primary" href="{% url 'places:create' %}">Add a Place</a>
+        </div>
+    {% endif %}
+</section>
 
-        {% block content %}
-        {% endblock %}
-    </main>
+<section class="dashboard-section" id="my-contributions" aria-labelledby="my-places-title">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Your contributions</p>
+            <h2 id="my-places-title">My places</h2>
+        </div>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 Daanan. Kilalanin bago tawirin.</p>
-    </footer>
-
-</body>
-</html>
+    {% if my_places %}
+        <div class="place-grid">
+            {% for place in my_places %}
+                {% include 'dashboard/_place_card.html' with place=place %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state empty-state-compact">
+            <p>You have not shared a place yet.</p>
+            <a href="{% url 'places:create' %}">Add your first place</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

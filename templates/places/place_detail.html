@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ place.name }} | Daanan{% endblock %}
+
+{% block content %}
+<h1>{{ place.name }}</h1>
+<p><strong>Address:</strong> {{ place.address }}</p>
+
+{% if place.description %}
+    <p>{{ place.description|linebreaksbr }}</p>
+{% endif %}
+
+{% if place.latitude != None or place.longitude != None %}
+    <h2>Coordinates</h2>
+    <dl>
+        {% if place.latitude != None %}
+            <dt>Latitude</dt>
+            <dd>{{ place.latitude }}</dd>
+        {% endif %}
+        {% if place.longitude != None %}
+            <dt>Longitude</dt>
+            <dd>{{ place.longitude }}</dd>
+        {% endif %}
+    </dl>
+{% endif %}
+
+<h2>Accessibility Features</h2>
+{% if place.accessibility_records.all %}
+    <ul>
+        {% for association in place.accessibility_records.all %}
+            <li>
+                <strong>{{ association.feature.name }}</strong>
+                {% if association.notes %}<p>{{ association.notes|linebreaksbr }}</p>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No accessibility features have been recorded for this place.</p>
+{% endif %}
+
+{% if can_manage %}
+    <p>
+        <a href="{% url 'places:update' pk=place.pk %}">Edit Place</a>
+        <a href="{% url 'places:delete' pk=place.pk %}">Delete Place</a>
+    </p>
+{% endif %}
+
+<p><a href="{% url 'places:list' %}">Back to Places</a></p>
+{% endblock %}
