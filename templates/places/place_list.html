@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Places | Daanan{% endblock %}
+
+{% block content %}
+<h1>Accessible Places</h1>
+
+{% if user.is_authenticated %}
+    <p><a href="{% url 'places:create' %}">Create Place</a></p>
+{% endif %}
+
+{% if places %}
+    <ul>
+        {% for place in places %}
+            <li>
+                <h2><a href="{% url 'places:detail' pk=place.pk %}">{{ place.name }}</a></h2>
+                <p>{{ place.address }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No places are available yet.</p>
+{% endif %}
+{% endblock %}

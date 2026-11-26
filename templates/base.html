@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,35 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}Daanan{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'places/site.css' %}">
 </head>
-<body>
+<body class="site-body">
 
-    <header>
-        <h2>Daanan</h2>
+    <header class="site-header">
+        <a class="site-brand" href="{% url 'home' %}">Daanan</a>
 
-        <nav>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'about' %}">About</a>
+        <nav class="site-nav" aria-label="Main navigation">
 
             {% if user.is_authenticated %}
-
                 <a href="{% url 'user_dashboard' %}">Dashboard</a>
-                <a href="{% url 'profile' %}">My Profile</a>
+                <a href="{% url 'places:list' %}">Explore Places</a>
+                <a href="{% url 'user_dashboard' %}#my-contributions">My Places</a>
+                <a href="{% url 'profile' %}">Profile</a>
                 <a href="{% url 'logout' %}">Logout</a>
-
             {% else %}
-
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'places:list' %}">Explore Places</a>
                 <a href="{% url 'login' %}">Login</a>
-
+                <a href="{% url 'register' %}">Register</a>
             {% endif %}
         </nav>
     </header>
 
-    <main>
+    <main class="site-main">
         {% if messages %}
             {% for message in messages %}
-                <p>{{ message }}</p>
+                <p class="site-message" role="status">{{ message }}</p>
             {% endfor %}
         {% endif %}
 
@@ -41,7 +40,7 @@
         {% endblock %}
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <p>&copy; 2026 Daanan. Kilalanin bago tawirin.</p>
     </footer>
 

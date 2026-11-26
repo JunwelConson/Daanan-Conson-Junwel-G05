@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if place.pk %}Edit Place{% else %}Create Place{% endif %} | Daanan{% endblock %}
+
+{% block content %}
+<h1>{% if place.pk %}Edit Place{% else %}Create Place{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+            {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+        </p>
+    {% endfor %}
+
+    <h2>Accessibility Features</h2>
+    {{ formset.management_form }}
+    {{ formset.non_form_errors }}
+
+    {% for association_form in formset %}
+        <fieldset>
+            {% for hidden in association_form.hidden_fields %}
+                {{ hidden }}
+                {{ hidden.errors }}
+            {% endfor %}
+
+            {{ association_form.non_field_errors }}
+            {% for field in association_form.visible_fields %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                    {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+                </p>
+            {% endfor %}
+        </fieldset>
+    {% endfor %}
+
+    <button type="submit">{% if place.pk %}Save Changes{% else %}Create Place{% endif %}</button>
+    {% if place.pk %}
+        <a href="{% url 'places:detail' pk=place.pk %}">Cancel</a>
+    {% else %}
+        <a href="{% url 'places:list' %}">Cancel</a>
+    {% endif %}
+</form>
+{% endblock %}
