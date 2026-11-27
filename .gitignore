@@ -8,8 +8,11 @@ __pycache__/
 venv/
 env/
 
-# Django database
-db.sqlite3
+# Django databases
+*.sqlite3
+
+# User-uploaded media
+media/
 
 # Environment variables and secrets
 .env
