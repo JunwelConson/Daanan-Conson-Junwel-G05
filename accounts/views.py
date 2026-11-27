@@ -38,8 +38,13 @@ def user_login(request):
             if profile is None:
                 profile = UserProfile.objects.create(user=user)
 
-            if profile.role == 'admin':
-                return redirect('admin_dashboard')
+            if profile.role not in ('user', 'admin'):
+                logout(request)
+                messages.error(
+                    request,
+                    'Your account role is not recognized. Please contact an administrator.',
+                )
+                return redirect('login')
 
             return redirect('user_dashboard')
 
