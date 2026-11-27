@@ -34,13 +34,14 @@ def _can_manage_place(user, place):
     )
 
 
+@login_required
 def place_list(request):
     places = Place.objects.select_related('created_by').prefetch_related(
         'accessibility_features'
     )
     return render(request, 'places/place_list.html', {'places': places})
 
-
+@login_required
 def place_detail(request, pk):
     place = get_object_or_404(
         Place.objects.select_related('created_by').prefetch_related(
